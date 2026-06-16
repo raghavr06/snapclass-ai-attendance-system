@@ -1,0 +1,18 @@
+# Utilities
+numpy # for array ops
+pandas # tabular ops
+
+# Face Recognition
+scikit-learn # for SVM classifier(Face1, Face2...)
+dlib-bin
+git+https://github.com/ageitgey/face_recognition_models
+setuptools<70.0.0
+
+supabase
+bcrypt
+
+segno # link -> qr code
+pillow #img processing
+
+streamlit # frontend lib
+
