@@ -26,7 +26,8 @@ def style_background_dashboard():
             <style> 
                 
                 .stApp{
-                    background: #E03FF !important;
+                    background: #E0E3FF !important;
+                    color:black;
                 }
 
             </style>

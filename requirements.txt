@@ -1,18 +1,23 @@
+streamlit>=1.53.0
+
 # Utilities
-numpy # for array ops
-pandas # tabular ops
+numpy>=1.24.0       # array ops
+pandas>=1.5.0       # tabular ops
 
 # Face Recognition
-scikit-learn # for SVM classifier(Face1, Face2...)
+scikit-learn        # SVM classifier (Face1, Face2 ...)
 dlib-bin
 git+https://github.com/ageitgey/face_recognition_models
 setuptools<70.0.0
 
+# Database & Auth 
 supabase
 bcrypt
 
-segno # link -> qr code
-pillow #img processing
+# Misc
+segno               # QR-code generation
+pillow              # image processing
 
-streamlit # frontend lib
-
+# Voice Recognition
+librosa
+resemblyzer         # voice embeddings
