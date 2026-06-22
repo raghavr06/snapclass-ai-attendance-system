@@ -11,6 +11,7 @@ from src.components.dialog_add_photo import add_photos_dialog
 from src.pipelines.face_pipeline import predict_attendance
 from src.database.config import supabase
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import pandas as pd
 import calendar as cal_module
 from collections import defaultdict
@@ -151,7 +152,9 @@ def teacher_tab_take_attendance():
                     else:
                         results, attendance_to_log  = [], []
 
-                        current_timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+                        current_timestamp = datetime.now(
+                            ZoneInfo("Asia/Kolkata")
+                        ).strftime("%Y-%m-%dT%H:%M:%S")
 
                         for node in enrolled_students:
                             student = node["students"]
