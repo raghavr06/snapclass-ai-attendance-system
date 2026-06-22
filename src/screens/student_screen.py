@@ -7,6 +7,7 @@ import math
 import calendar as cal_module
 import pandas as pd
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from collections import defaultdict
 from src.pipelines.face_pipeline import predict_attendance, get_face_embeddings, train_classifier
 from src.database.db import get_all_students, create_student, get_student_subjects, get_student_attendance, unenroll_student_to_subject
@@ -22,7 +23,10 @@ def render_attendance_calendar(logs):
     for log in logs:
         ts = log.get('timestamp')
         if ts:
-            d = datetime.fromisoformat(ts.split('.')[0]).date()
+            # Convert UTC timestamp from Supabase → IST before extracting date.
+            # split('.')[0] was stripping the '+00:00' offset along with microseconds,
+            # causing the calendar to group under the UTC date instead of the IST date.
+            d = datetime.fromisoformat(ts).astimezone(ZoneInfo("Asia/Kolkata")).date()
 
             if d not in date_status or log.get('is_present'):
                 date_status[d] = log.get('is_present', False)
@@ -127,7 +131,8 @@ def subject_attendance_dialog(sub_name, sub_code, section, stats, logs, subject_
     for log in sorted(subject_logs, key=lambda x: x.get('timestamp', ''), reverse=True):
         ts = log.get('timestamp')
         if ts:
-            date_str = datetime.fromisoformat(ts.split('.')[0]).strftime("%d %b %Y")
+            # Same fix: parse full ISO string (with +00:00) and convert to IST.
+            date_str = datetime.fromisoformat(ts).astimezone(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y")
             history.append({
                 "Date": date_str,
                 "Status": "✅ Present" if log.get('is_present') else "❌ Absent",
