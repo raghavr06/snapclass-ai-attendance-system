@@ -154,7 +154,7 @@ def teacher_tab_take_attendance():
 
                         current_timestamp = datetime.now(
                             ZoneInfo("Asia/Kolkata")
-                        ).strftime("%Y-%m-%dT%H:%M:%S")
+                        ).isoformat()
 
                         for node in enrolled_students:
                             student = node["students"]
@@ -341,12 +341,12 @@ def teacher_tab_attendance_records():
     for r in records:
         ts = r.get("timestamp")
         data.append({
-            "ts_group":    ts.split(".")[0] if ts else None,
-            "Time":        datetime.fromisoformat(ts).strftime("%Y-%m-%d %I:%M %p") if ts else "N/A",
-            "Subject":     r["subjects"]["name"],
-            "Subject Code":r["subjects"]["subject_code"],
+            "ts_group": ts.split(".")[0] if ts else None,
+            "Time": (datetime.fromisoformat(ts).astimezone(ZoneInfo("Asia/Kolkata")).strftime("%Y-%m-%d %I:%M %p")) if ts else "N/A",
+            "Subject": r["subjects"]["name"],
+            "Subject Code": r["subjects"]["subject_code"],
             "is_present":  bool(r.get("is_present", False)),
-            "student_name":(r.get("students") or {}).get("name", "Unknown"),
+            "student_name": (r.get("students") or {}).get("name", "Unknown"),
         })
 
     df = pd.DataFrame(data)

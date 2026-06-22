@@ -48,7 +48,7 @@ def voice_attendance_dialog(selected_subject_id):
 
              current_timestamp = datetime.now(
                 ZoneInfo("Asia/Kolkata")
-            ).strftime("%Y-%m-%dT%H:%M:%S")
+             ).isoformat()
 
 
              for node in enrolled_students:

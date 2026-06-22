@@ -1,5 +1,6 @@
 from src.database.config import supabase
 import bcrypt
+from zoneinfo import ZoneInfo
 
 def hash_pass(pwd):
     return bcrypt.hashpw(pwd.encode(), bcrypt.gensalt()).decode()
@@ -191,7 +192,7 @@ def get_subject_daily_attendance(subject_id):
     for log in response.data:
         ts = log.get("timestamp")
         if ts:
-            d = datetime.fromisoformat(ts.split(".")[0]).date()
+            d = datetime.fromisoformat(ts).astimezone(ZoneInfo("Asia/Kolkata")).date()
             day_stats[d]["total"] += 1
             if log.get("is_present"):
                 day_stats[d]["present"] += 1
